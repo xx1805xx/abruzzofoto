@@ -109,12 +109,6 @@ $$('[data-quote]').forEach(button=>button.addEventListener('click',()=>openQuote
 $('#close-quote').addEventListener('click',()=>quote.close());quote.addEventListener('close',()=>{syncBodyLock();if(quoteReturnFocus?.isConnected)quoteReturnFocus.focus({preventScroll:true});});
 quote.addEventListener('click',event=>{if(event.target!==quote)return;const box=quote.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)quote.close();});
 $('#album-quote').addEventListener('click',()=>{const service=categories[albumCategory].service,returnFocus=albumReturnFocus;album.close();openQuote(service,returnFocus);});
-$('#contact-form').addEventListener('submit',event=>{
- event.preventDefault();const form=event.currentTarget;if(!form.reportValidity())return;const data=new FormData(form),date=data.get('date');
- const body='Nome: '+data.get('name')+'\nEmail: '+data.get('email')+'\nProgetto: '+data.get('service')+(date?'\nData: '+date:'')+'\n\n'+data.get('message');
- const href='mailto:info@abruzzofoto.it?subject='+encodeURIComponent('Informazioni — '+data.get('service'))+'&body='+encodeURIComponent(body);
- window.location.href=href;$('#form-status').textContent='Email preparata. Completa l’invio nella tua app email. In alternativa puoi scrivere direttamente a info@abruzzofoto.it.';
-});
 const heroSlides=[{category:'DANZA',caption:'Il gesto e la luce.'},{category:'RITRATTI',caption:'La tua personalità, in un’immagine.'},{category:'MACRO',caption:'La bellezza delle piccole cose.'}];
 let heroIndex=0,playing=false,heroTimer=null;
 function scheduleHero(){clearTimeout(heroTimer);if(playing&&!document.hidden&&!reducedMotion.matches)heroTimer=setTimeout(()=>{setHero(heroIndex+1);},6000);}

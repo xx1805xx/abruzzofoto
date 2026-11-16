@@ -8,6 +8,10 @@
  const version=String(config.consentVersion||'v1')+':'+id;
  const ttl=180*24*60*60*1000;
  const banner=document.getElementById('cookie-banner'),dialog=document.getElementById('cookie-dialog'),choice=document.getElementById('analytics-choice');
+ const analyticsOption=document.getElementById('analytics-option'),description=document.getElementById('cookie-banner-description');
+ if(analyticsOption)analyticsOption.hidden=!configured;
+ if(choice)choice.disabled=!configured;
+ if(description)description.textContent=configured?'Usiamo cookie tecnici e, solo con il tuo consenso, Google Analytics per misurare le visite. Nessuna profilazione pubblicitaria.':'Usiamo solo cookie tecnici per ricordare la tua scelta. Non sono attive statistiche o cookie pubblicitari.';
  let loaded=false,granted=false;
  function readConsent(){
   try{
@@ -54,7 +58,7 @@
   else if(wasLoaded)location.reload();
  }
  function openPreferences(){
-  if(!dialog)return;const record=readConsent();choice.checked=configured&&record?.analytics===true;choice.disabled=!configured;
+  if(!dialog)return;const record=readConsent();choice.checked=configured&&record?.analytics===true;choice.disabled=!configured;if(analyticsOption)analyticsOption.hidden=!configured;
   document.getElementById('analytics-availability').textContent=configured?'Le statistiche sono facoltative e si attivano solo con il tuo consenso.':'Le statistiche non sono attive in questo momento. Nessun servizio di analytics viene caricato.';
   if(!dialog.open)dialog.showModal();document.body.classList.add('privacy-open');
  }
@@ -65,7 +69,7 @@
  document.getElementById('save-cookie-preferences')?.addEventListener('click',()=>apply(choice.checked));
  dialog?.addEventListener('close',()=>document.body.classList.remove('privacy-open'));
  const record=readConsent();granted=configured&&record?.analytics===true;
- if(banner)banner.hidden=!configured||record!==null;
+ if(banner)banner.hidden=record!==null;
  if(granted)enableAnalytics();
  const state=document.getElementById('privacy-analytics-state');if(state)state.textContent=configured?'Stato del sito: statistiche disponibili solo dopo consenso.':'Stato del sito: nessuna proprietà Analytics attiva; nessun tracciamento statistico viene caricato.';
  window.AbruzzoPrivacy=Object.freeze({open:openPreferences,getState:()=>Object.freeze({configured,analytics:granted})});

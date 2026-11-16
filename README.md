@@ -32,3 +32,7 @@ Risultati e limiti dei controlli in [SECURITY_REVIEW.md](SECURITY_REVIEW.md). Te
 Il dominio dispone di Hosting Windows Basic. La versione GitHub rimane in `docs`; il pacchetto per il dominio si genera con `python scripts/export_aruba.py --output build/aruba-public`. Istruzioni e verifiche di HTTPS/TLS in [deployment/ARUBA_WINDOWS.md](deployment/ARUBA_WINDOWS.md). Controllo completo delle risorse: `python scripts/check_site.py docs`. Test del modulo e del consenso: `node --test tests/*.test.cjs`.
 
 Rapporto aggiornato: [deployment/COLLAUDO_FINALE.md](deployment/COLLAUDO_FINALE.md). Il collaudo applicativo non sostituisce la prova di consegna email e la verifica delle direttive IIS sul server dopo il caricamento.
+
+## Banner all’ingresso
+
+Il banner compare al primo accesso e offre Accetta, Rifiuta e Preferenze. La scelta è ricordata per 180 giorni. Se Analytics non è configurato, l’interfaccia dichiara che sono usati solo cookie tecnici e nasconde il controllo delle statistiche; non simula un tracciamento inesistente. Quando viene inserito un ID reale, viene richiesta una nuova scelta prima di caricare il tag. Test automatici aggiornati: 16 superati. Il caricamento dal Mac avviene nel File Manager: la voce Hosting Windows identifica il server Aruba, non il sistema operativo del computer.

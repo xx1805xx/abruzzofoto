@@ -23,7 +23,7 @@ Versione applicativa verificata su GitHub: `2a494fa9b78702c3611e28178e71d62c0179
 
 ## Test automatici
 
-**14 test superati, nessun fallimento.**
+**14 test superati nel primo collaudo; 16 dopo l’aggiornamento del banner, nessun fallimento.**
 
 - 9 test di consenso: nessuna proprietà configurata, blocco prima della scelta, rifiuto, caricamento singolo dopo consenso, esclusione di query e frammenti dai parametri, consenso scaduto/malformato, consenso valido, revoca, percorso cookie Aruba e rifiuto di percorsi non validi. Cookie estranei al progetto preservati.
 - 5 test del modulo: normalizzazione dei caratteri di controllo e soggetto fisso, ripristino del pulsante al ritorno alla pagina, honeypot, endpoint modificato, servizio fuori elenco e codifica del mailto. Alcuni casi sono raggruppati nello stesso test.
@@ -82,3 +82,7 @@ Il contenuto va estratto e caricato nella radice del dominio mantenendo `assets/
 - **Area riservata:** non implementata in questa versione. Le fotografie del portfolio sono pubbliche. Una futura area clienti deve controllare autorizzazione e accesso ai file lato server.
 
 Riferimenti: [Aruba — installazione certificato](https://guide.aruba.it/hosting-e-domini/certificato-ssl/gestione/installare), [Aruba — caratteristiche hosting/TLS](https://guide.aruba.it/hosting-e-domini/gestione-domini/acquisto-e-rinnovo/acquisto-registrazione/hosting-domini-caratteristiche-e-utilizzo), [Aruba — Windows e web.config](https://guide.aruba.it/hosting-e-domini/hosting/hosting-windows/pubblicazione-gestione-sito-windows/utilizzare-cms-con-windows), [OWASP TLS](https://cheatsheetseries.owasp.org/cheatsheets/Transport_Layer_Security_Cheat_Sheet.html).
+
+## Aggiornamento banner, prova email e caricamento dal Mac
+
+Il banner ora compare al primo accesso anche in assenza di un ID Analytics, con Accetta, Rifiuta e Preferenze. La scelta resta memorizzata per 180 giorni; i controlli delle statistiche non configurate sono nascosti e il motivo è esplicitato. L’invio autorizzato di prova ha raggiunto FormSubmit, che ha mostrato “Check Your Email” richiedendo la conferma della casella tramite “Activate Form”. Non è ancora attestata la consegna di una richiesta dopo l’attivazione. La versione nuova non è stata caricata sul dominio Aruba: nessun file esistente è stato sostituito. Procedura concreta e stato del trasferimento in [CARICAMENTO_DA_MAC.md](CARICAMENTO_DA_MAC.md). Il pacchetto aggiornato e integrato per questo dominio sostituisce quello della prima consegna: 51 file, 1.873.078 byte, SHA-256 aab8e596f35b3cb891ff148be185aa742cfe01a046ee6423f7bcc5f8725860e8.

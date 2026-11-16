@@ -36,3 +36,5 @@ Rapporto aggiornato: [deployment/COLLAUDO_FINALE.md](deployment/COLLAUDO_FINALE.
 ## Banner all’ingresso
 
 Il banner compare al primo accesso e offre Accetta, Rifiuta e Preferenze. La scelta è ricordata per 180 giorni. Se Analytics non è configurato, l’interfaccia dichiara che sono usati solo cookie tecnici e nasconde il controllo delle statistiche; non simula un tracciamento inesistente. Quando viene inserito un ID reale, viene richiesta una nuova scelta prima di caricare il tag. Test automatici aggiornati: 16 superati. Il caricamento dal Mac avviene nel File Manager: la voce Hosting Windows identifica il server Aruba, non il sistema operativo del computer.
+
+Percorso verificato dal Mac: [deployment/CARICAMENTO_DA_MAC.md](deployment/CARICAMENTO_DA_MAC.md). Il primo invio di prova ha richiesto l’attivazione FormSubmit via email; la consegna finale non è ancora attestata.

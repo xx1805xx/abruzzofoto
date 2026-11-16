@@ -40,3 +40,7 @@ Data: 12 novembre 2026. Ambito: codice del repository `xx1805xx/abruzzofoto`, pa
 - Google consent mode: https://support.google.com/analytics/answer/14009635
 - FormSubmit: https://formsubmit.co/
 - Google Search Central: https://developers.google.com/search/docs/fundamentals/seo-starter-guide
+
+## Aggiornamento 16 novembre 2026
+
+Correzioni, ulteriori test, verifica del certificato Aruba e limiti del collaudo finale sono descritti in [deployment/COLLAUDO_FINALE.md](deployment/COLLAUDO_FINALE.md). Le statistiche restano disattivate e la consegna end-to-end delle email non è ancora attestata.

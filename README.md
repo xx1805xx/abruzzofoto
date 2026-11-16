@@ -30,3 +30,5 @@ Risultati e limiti dei controlli in [SECURITY_REVIEW.md](SECURITY_REVIEW.md). Te
 ## Aruba Windows
 
 Il dominio dispone di Hosting Windows Basic. La versione GitHub rimane in `docs`; il pacchetto per il dominio si genera con `python scripts/export_aruba.py --output build/aruba-public`. Istruzioni e verifiche di HTTPS/TLS in [deployment/ARUBA_WINDOWS.md](deployment/ARUBA_WINDOWS.md). Controllo completo delle risorse: `python scripts/check_site.py docs`. Test del modulo e del consenso: `node --test tests/*.test.cjs`.
+
+Rapporto aggiornato: [deployment/COLLAUDO_FINALE.md](deployment/COLLAUDO_FINALE.md). Il collaudo applicativo non sostituisce la prova di consegna email e la verifica delle direttive IIS sul server dopo il caricamento.

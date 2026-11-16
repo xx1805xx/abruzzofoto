@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const vm=require('node:vm');
 const fs=require('node:fs');
 const code=fs.readFileSync('docs/privacy.js','utf8');
-function setup(id='',initial={}){
+function setup(id='',initial={},sitePath){
  const elements=new Map(),cookies=new Map(Object.entries(initial)),writes=[],scripts=[],reloads=[];
  class Element{
   constructor(){this.listeners={};this.open=false;this.hidden=false;this.checked=false;this.disabled=false;this.dataset={};this.classList={add(){},remove(){}};}
@@ -16,7 +16,7 @@ function setup(id='',initial={}){
  const selectors={'[data-cookie-settings]':[new Element()],'[data-consent-reject]':[new Element()],'[data-consent-accept]':[new Element()],'[data-close-cookies]':[new Element()]};
  const document={title:'Abruzzo Foto',referrer:'https://ref.example/search?q=private',head:{append(script){scripts.push(script);}},body:{classList:{add(){},remove(){}}},getElementById:byId,querySelectorAll:s=>selectors[s]??[],querySelector:s=>(selectors[s]??[])[0],createElement:()=>new Element()};
  Object.defineProperty(document,'cookie',{get:()=>[...cookies].map(([k,v])=>k+'='+v).join('; '),set:value=>{writes.push(value);const [kv]=value.split(';'),at=kv.indexOf('='),key=kv.slice(0,at);if(/Max-Age=0(?:;|$)/.test(value))cookies.delete(key);else cookies.set(key,kv.slice(at+1));}});
- const context={ABRUZZO_CONFIG:{analyticsMeasurementId:id,consentVersion:'test'},document,location:{protocol:'https:',href:'https://xx1805xx.github.io/abruzzofoto/?email=private#private',reload(){reloads.push(true);}},URL,Date,Number,JSON,Object,encodeURIComponent,decodeURIComponent};context.window=context;vm.createContext(context);vm.runInContext(code,context);
+ const context={ABRUZZO_CONFIG:{analyticsMeasurementId:id,consentVersion:'test',sitePath},document,location:{protocol:'https:',href:'https://xx1805xx.github.io/abruzzofoto/?email=private#private',reload(){reloads.push(true);}},URL,Date,Number,JSON,Object,encodeURIComponent,decodeURIComponent};context.window=context;vm.createContext(context);vm.runInContext(code,context);
  return {context,elements,cookies,writes,scripts,reloads,click:s=>selectors[s][0].click()};
 }
 test('Without a configured property no analytics resources are requested',()=>{const app=setup();app.click('[data-consent-accept]');assert.equal(app.scripts.length,0);assert.equal(app.context.AbruzzoPrivacy.getState().analytics,false);});
@@ -26,3 +26,6 @@ test('Only explicit consent loads Analytics, once, without URL query data',()=>{
 test('Expired or malformed consent never enables tracking',()=>{for(const value of ['broken',encodeURIComponent(JSON.stringify({version:'test:G-TEST123456',analytics:true,savedAt:Date.now()-181*86400000}))]){const app=setup('G-TEST123456',{af_consent_v1:value});assert.equal(app.scripts.length,0);assert.equal(app.elements.get('cookie-banner').hidden,false);}});
 test('Valid saved consent loads the configured property',()=>{const saved=encodeURIComponent(JSON.stringify({version:'test:G-TEST123456',analytics:true,savedAt:Date.now()}));const app=setup('G-TEST123456',{af_consent_v1:saved});assert.equal(app.scripts.length,1);});
 test('Revocation disables tracking, removes project analytics cookies and reloads',()=>{const app=setup('G-TEST123456',{af_ga:'analytics',formaclub_session:'unrelated'});app.click('[data-consent-accept]');app.click('[data-consent-reject]');assert.equal(app.context['ga-disable-G-TEST123456'],true);assert.equal(app.cookies.has('af_ga'),false);assert.equal(app.cookies.get('formaclub_session'),'unrelated');assert.equal(app.reloads.length,1);});
+
+test('Aruba root deployment uses the configured cookie path, including revocation',()=>{const app=setup('G-TEST123456',{af_ga:'analytics'},'/');app.click('[data-consent-accept]');assert.match(app.writes[0],/Path=\/; SameSite=Lax; Secure/);assert.equal([...app.context.dataLayer].find(args=>args[0]==='config')[2].cookie_path,'/');app.click('[data-consent-reject]');assert.ok(app.writes.every(value=>/Path=\/;/.test(value)));});
+test('Invalid cookie paths fall back to the project path without attribute injection',()=>{for(const path of ['https://other.example/','/; Domain=other.example','/../']){const app=setup('',{},path);app.click('[data-consent-reject]');assert.match(app.writes[0],/Path=\/abruzzofoto\/;/);assert.doesNotMatch(app.writes[0],/Domain=/);}});

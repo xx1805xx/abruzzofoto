@@ -104,7 +104,7 @@ menuToggle.addEventListener('click',()=>{const open=menuToggle.getAttribute('ari
 navigation.querySelectorAll('a').forEach(link=>link.addEventListener('click',closeMenu));
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&navigation.classList.contains('open')){closeMenu();menuToggle.focus();}});
 matchMedia('(min-width: 601px)').addEventListener('change',event=>{if(event.matches)closeMenu();});
-function openQuote(service='',returnFocus=document.activeElement){quoteReturnFocus=returnFocus;closeMenu();const select=$('#contact-form').elements.service;if(service&&[...select.options].some(option=>option.value===service))select.value=service;$('#form-status').textContent='';quote.showModal();quote.scrollTop=0;syncBodyLock();hideCursor();}
+function openQuote(service='',returnFocus=document.activeElement){quoteReturnFocus=returnFocus;closeMenu();const select=$('#contact-form').elements.service;if(service&&[...select.options].some(option=>option.value===service))select.value=service;select.setCustomValidity('');$('#form-status').textContent='';quote.showModal();quote.scrollTop=0;syncBodyLock();hideCursor();}
 $$('[data-quote]').forEach(button=>button.addEventListener('click',()=>openQuote(button.dataset.quote)));
 $('#close-quote').addEventListener('click',()=>quote.close());quote.addEventListener('close',()=>{syncBodyLock();if(quoteReturnFocus?.isConnected)quoteReturnFocus.focus({preventScroll:true});});
 quote.addEventListener('click',event=>{if(event.target!==quote)return;const box=quote.getBoundingClientRect();if(event.clientX<box.left||event.clientX>box.right||event.clientY<box.top||event.clientY>box.bottom)quote.close();});

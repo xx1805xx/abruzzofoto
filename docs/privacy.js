@@ -3,7 +3,7 @@
  const config=window.ABRUZZO_CONFIG||{};
  const id=typeof config.analyticsMeasurementId==='string'?config.analyticsMeasurementId.trim():'';
  const configured=/^G-[A-Z0-9]{5,20}$/.test(id);
- const path='/abruzzofoto/';
+ const path=typeof config.sitePath==='string'&&/^\/(?:[A-Za-z0-9_-]+\/)*$/.test(config.sitePath)?config.sitePath:'/abruzzofoto/';
  const key='af_consent_v1';
  const version=String(config.consentVersion||'v1')+':'+id;
  const ttl=180*24*60*60*1000;

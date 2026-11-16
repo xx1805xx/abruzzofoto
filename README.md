@@ -26,3 +26,7 @@ Le pagine dei servizi hanno URL, titoli, descrizioni, canonical e JSON-LD propri
 Font serviti localmente, preferenze privacy revocabili e informativa in `docs/privacy.html`. Il gestore deve confermare i propri dati legali e le condizioni dei fornitori prima di considerare completata la configurazione privacy.
 
 Risultati e limiti dei controlli in [SECURITY_REVIEW.md](SECURITY_REVIEW.md). Test del consenso: `node --test tests/privacy.test.cjs`.
+
+## Aruba Windows
+
+Il dominio dispone di Hosting Windows Basic. La versione GitHub rimane in `docs`; il pacchetto per il dominio si genera con `python scripts/export_aruba.py --output build/aruba-public`. Istruzioni e verifiche di HTTPS/TLS in [deployment/ARUBA_WINDOWS.md](deployment/ARUBA_WINDOWS.md). Controllo completo delle risorse: `python scripts/check_site.py docs`. Test del modulo e del consenso: `node --test tests/*.test.cjs`.
